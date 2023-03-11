@@ -150,7 +150,6 @@ allSections.forEach( section => {
 //Lazy loading images 
 const imgTarged = document.querySelectorAll('img[data-src]')
 const imgObserver = new IntersectionObserver( entries => {
-  console.log(entries);
   const [entry] = entries
   entry.target.src = entry.target.dataset.src
   entry.target.addEventListener('load', function(){
@@ -166,4 +165,57 @@ const imgObserver = new IntersectionObserver( entries => {
 
 imgTarged.forEach(img =>{
   imgObserver.observe(img)
+})
+
+
+// Slider 
+
+const slides = document.querySelectorAll('.slide')
+const slider = document.querySelector('.slider')
+
+const btnRight = document.querySelector('.slider__btn--right')
+const btnLeft = document.querySelector('.slider__btn--left')
+
+let curSlide = 0;
+const maxSlide = slides.length
+slides.forEach((s, i) => s.style.transform = `translateX(${100*i}%)`)
+
+const goToSlide=  function(slide){
+  slides.forEach((s, i) => s.style.transform = `translateX(${100*(i-slide)}%)`)
+}
+goToSlide(0)
+
+const nextSlide = function (){
+  if(curSlide === maxSlide-1){
+    curSlide = 0
+  }else{
+    curSlide++
+  }
+  goToSlide(curSlide)
+}
+
+const prevSlide = function (){
+  if(curSlide === 0){
+    curSlide = maxSlide-1
+  }else{
+    curSlide--
+  }
+  goToSlide(curSlide)
+}
+
+
+// slide dots
+const createDots = function (){
+  slides.forEach((_,i)=>{
+    
+  })
+}
+
+btnRight.addEventListener('click', nextSlide)
+btnLeft.addEventListener('click', prevSlide)
+
+document.addEventListener('keydown', function (e) {
+ 
+  if(e.key === 'ArrowRight') nextSlide()
+  if(e.key === 'ArrowLeft') prevSlide() 
 })
